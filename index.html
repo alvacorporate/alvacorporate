@@ -1,274 +1,220 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ALVA Corporate — Gestão Estratégica de Licitações</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALVA Corporate — Gestão de Licitações</title>
+    
+    <!-- Tipografia Profissional -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         :root {
+            --pure-white: #FFFFFF;
+            --off-white: #F9F9F9;
             --black: #050505;
-            --white: #F5F5F5;
-            --copper: #C47A3A;
+            --silver: #C0C0C0;
+            --silver-light: #E5E5E5;
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--white);
+            background-color: var(--pure-white);
             color: var(--black);
-            overflow-x: hidden;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Efeito de grão luxuoso */
-        body::before {
-            content:''; position:fixed; inset:0; pointer-events:none; opacity:.03;
-            background-image: url("https://grainy-gradients.vercel.app/noise.svg"); z-index: 9999;
-        }
-
         /* --- NAVBAR --- */
-        .navbar {
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            backdrop-filter: blur(20px); background: rgba(245, 245, 245, 0.8);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--silver-light);
         }
 
-        /* --- HERO --- */
-        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; z-index: 1; padding-top: 80px; }
-
-        .chrome-orb {
-            position: absolute; right: -10%; top: 20%; width: 60vw; height: 60vw;
-            background: radial-gradient(circle at 30% 30%, #fff, #d1d1d1 15%, #8f8f8f 50%, #f5f5f5 100%);
-            border-radius: 50%; filter: blur(60px); opacity: 0.15; z-index: -1;
-            animation: float 15s ease-in-out infinite;
+        /* --- BOTÃO GLASS EFFECT --- */
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(192, 192, 192, 0.5);
+            color: var(--black);
+            transition: all 0.3s ease;
         }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+        .btn-glass:hover {
+            background: rgba(192, 192, 192, 0.2);
+            border-color: var(--black);
+        }
 
+        /* --- SEÇÃO HERO --- */
         .hero-title {
-            font-size: clamp(2.5rem, 7vw, 7rem); line-height: 0.9;
-            font-weight: 900; letter-spacing: -0.06em;
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.05em;
         }
 
-        .chrome-text {
-            background: linear-gradient(to bottom, #050505, #888, #050505);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        /* --- DESTAQUE DE PRATA (GRADIENTE SUTIL) --- */
+        .silver-gradient {
+            background: linear-gradient(90deg, #050505 0%, #777777 50%, #050505 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- CARDS & GLASS --- */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 30px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        /* --- DIVISORES --- */
+        .divider {
+            height: 1px;
+            background: var(--silver-light);
+            width: 100%;
         }
-        .glass-card:hover { transform: translateY(-10px); border-color: var(--copper); box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
 
-        /* --- DARK SECTION --- */
-        .dark-block { background: var(--black); color: var(--white); border-radius: 60px 60px 0 0; margin-top: -60px; }
-
-        .video-container {
-            position: relative; border-radius: 40px; overflow: hidden;
-            height: 500px; width: 100%; box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+        /* --- ANIMAÇÃO DE ENTRADA --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
         }
-        .video-container video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
-        /* --- ANIMATION --- */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Botão */
-        .btn-premium {
-            padding: 16px 36px; border-radius: 100px; font-size: 11px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; transition: 0.3s;
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
+    <!-- NAVEGAÇÃO -->
+    <nav>
         <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-baseline gap-2">
-                <span class="text-xl font-black tracking-tighter">ALVA</span>
-                <span class="text-[8px] tracking-[3px] font-light opacity-50 uppercase">Corporate</span>
+            <div class="font-black text-2xl tracking-tighter">ALVA</div>
+            <div class="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-widest">
+                <a href="#sobre" class="hover:opacity-50 transition">Sobre</a>
+                <a href="#servicos" class="hover:opacity-50 transition">Serviços</a>
+                <a href="#contato" class="hover:opacity-50 transition">Contato</a>
             </div>
-            <div class="hidden md:flex gap-8 text-[10px] font-bold tracking-widest uppercase">
-                <a href="#sobre" class="hover:text-[#C47A3A]">Sobre</a>
-                <a href="#servicos" class="hover:text-[#C47A3A]">Serviços</a>
-                <a href="#atuacao" class="hover:text-[#C47A3A]">Atuação</a>
-                <a href="#contato" class="hover:text-[#C47A3A]">Contato</a>
-            </div>
-            <button class="bg-black text-white px-5 py-2 rounded-full text-[9px] font-bold tracking-tighter hover:bg-[#C47A3A]">
-                FALAR COM ESPECIALISTA
-            </button>
+            <a href="mailto:alvacorporate@gmail.com" class="btn-glass px-6 py-2 rounded-full text-[11px] font-bold tracking-widest uppercase">
+                Consultoria
+            </a>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="hero px-6">
-        <div class="chrome-orb"></div>
-        <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex items-center pt-20 px-6">
+        <div class="max-w-6xl mx-auto">
             <div class="reveal">
-                <p class="text-[#C47A3A] font-bold tracking-[6px] text-[9px] mb-5 uppercase">Intelligence & Excellence</p>
-                <h1 class="hero-title">
-                    <span class="font-extralight italic opacity-30">Transformamos</span><br>
-                    <span class="chrome-text">Licitações em</span><br>
-                    <span>Oportunidades.</span>
+                <p class="text-[10px] font-bold tracking-[0.5em] text-gray-400 mb-6 uppercase">Gestão Estratégica</p>
+                <h1 class="hero-title mb-8">
+                    Sua empresa no <br>
+                    <span class="silver-gradient">Mercado Público.</span>
                 </h1>
-                <p class="mt-6 text-zinc-500 text-base max-w-lg font-light leading-relaxed">
-                    Estratégia avançada e suporte jurídico de alto nível para empresas que buscam expansão e dominância no mercado governamental.
+                <p class="text-xl text-gray-500 max-w-2xl font-light mb-12">
+                    A Alva Corporate simplifica a complexidade das licitações brasileiras com inteligência analítica e segurança jurídica.
                 </p>
-                <div class="flex flex-wrap gap-4 mt-10">
-                    <button class="btn-premium bg-black text-white hover:bg-[#C47A3A]">Consultoria Estratégica</button>
-                    <button class="btn-premium border border-zinc-200 hover:bg-zinc-100">Nossa Atuação</button>
-                </div>
-            </div>
-            
-            <div class="hidden lg:flex justify-end reveal" style="transition-delay: 0.2s;">
-                <div class="glass-card w-72 h-72 flex items-center justify-center">
-                    <div class="w-32 h-32 bg-black rounded-full flex items-center justify-center shadow-2xl">
-                        <span class="text-white font-black text-3xl">A</span>
-                    </div>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#servicos" class="bg-black text-white px-10 py-5 rounded-full text-xs font-bold tracking-widest hover:opacity-80 transition uppercase">
+                        Ver Serviços
+                    </a>
+                    <a href="#sobre" class="btn-glass px-10 py-5 rounded-full text-xs font-bold tracking-widest uppercase">
+                        Nossa Metodologia
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- DARK SECTION -->
-    <section class="dark-block py-24 px-6">
+    <!-- ÚNICO NÚMERO (ALTO CONTRASTE) -->
+    <section class="bg-black text-white py-32 px-6">
+        <div class="max-w-7xl mx-auto text-center reveal">
+            <h2 class="text-[12vw] md:text-[8vw] font-black leading-none mb-4">+500</h2>
+            <p class="text-[12px] md:text-[16px] tracking-[0.8em] font-light text-gray-400 uppercase">
+                Contratos Analisados
+            </p>
+        </div>
+    </section>
+
+    <!-- SERVIÇOS (CLARO E ÚTIL) -->
+    <section id="servicos" class="py-32 px-6 bg-[#F9F9F9]">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-16 reveal">
-                <h2 class="text-4xl md:text-6xl font-black leading-tight mb-8">
-                    Performance estratégica<br>
-                    <span class="font-extralight opacity-40 italic">em cada contrato.</span>
-                </h2>
+            <div class="grid md:grid-cols-3 gap-16">
                 
-                <div class="video-container">
-                    <video autoplay muted loop playsinline>
-                        <source src="kling_20260519_作品_Transforme_4958_0.mp4" type="video/mp4">
-                    </video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 right-8 flex flex-wrap justify-between gap-6">
-                        <div>
-                            <span class="text-4xl font-black block text-[#C47A3A]">500+</span>
-                            <span class="text-[8px] uppercase tracking-widest opacity-40">Editais Analisados</span>
-                        </div>
-                        <div>
-                            <span class="text-4xl font-black block text-[#C47A3A]">R$ 200M</span>
-                            <span class="text-[8px] uppercase tracking-widest opacity-40">Contratos Vencidos</span>
-                        </div>
-                        <div>
-                            <span class="text-4xl font-black block text-[#C47A3A]">98%</span>
-                            <span class="text-[8px] uppercase tracking-widest opacity-40">Habilitação Técnica</span>
-                        </div>
-                    </div>
+                <div class="reveal">
+                    <div class="w-12 h-[1px] bg-black mb-8"></div>
+                    <h3 class="text-2xl font-bold mb-6">Triagem Estratégica</h3>
+                    <p class="text-gray-500 font-light">Monitoramento e análise técnica de editais para identificar apenas as oportunidades com alta probabilidade de sucesso.</p>
                 </div>
-            </div>
 
-            <!-- SERVIÇOS -->
-            <div id="servicos" class="grid md:grid-cols-3 gap-6 mt-20">
-                <div class="glass-card p-10 reveal border-white/5">
-                    <h3 class="text-xl font-bold mb-4">Consultoria Técnica</h3>
-                    <p class="text-zinc-500 font-light text-xs">Análise profunda de editais para mitigar riscos e maximizar chances de vitória.</p>
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <div class="w-12 h-[1px] bg-black mb-8"></div>
+                    <h3 class="text-2xl font-bold mb-6">Compliance Documental</h3>
+                    <p class="text-gray-500 font-light">Gestão rigorosa de certidões e documentos exigidos, eliminando qualquer risco de desclassificação técnica.</p>
                 </div>
-                <div class="glass-card p-10 reveal border-white/5" style="transition-delay: 0.1s;">
-                    <h3 class="text-xl font-bold mb-4">Gestão de Compliance</h3>
-                    <p class="text-zinc-500 font-light text-xs">Certificação documental rigorosa para garantir conformidade em todas as etapas.</p>
+
+                <div class="reveal" style="transition-delay: 0.4s;">
+                    <div class="w-12 h-[1px] bg-black mb-8"></div>
+                    <h3 class="text-2xl font-bold mb-6">Acompanhamento Ativo</h3>
+                    <p class="text-gray-500 font-light">Suporte em tempo real durante sessões de lances, pregões eletrônicos e redação de recursos administrativos.</p>
                 </div>
-                <div class="glass-card p-10 reveal border-white/5" style="transition-delay: 0.2s;">
-                    <h3 class="text-xl font-bold mb-4">Acompanhamento</h3>
-                    <p class="text-zinc-500 font-light text-xs">Participação estratégica em pregões eletrônicos e suporte em recursos.</p>
-                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- ÁREAS DE DOMÍNIO (CORRIGIDO) -->
-    <section id="atuacao" class="py-24 px-6 bg-white">
-        <div class="max-w-7xl mx-auto text-center mb-16 reveal">
-            <h2 class="text-4xl font-black tracking-tighter mb-3">Áreas de Domínio</h2>
-            <p class="text-zinc-400 font-light text-sm">Expertise nos setores mais estratégicos do país.</p>
-        </div>
-        
-        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- Cada caixa abaixo foi escrita manualmente para evitar erros de código -->
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Tecnologia</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Saúde</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Engenharia</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Segurança</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Educação</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Logística</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Energia</span>
-            </div>
-            <div class="border border-zinc-100 p-8 text-center hover:bg-black hover:text-white transition-all cursor-default reveal">
-                <span class="text-[9px] font-bold uppercase tracking-[3px]">Serviços</span>
+    <!-- CTA FINAL -->
+    <section id="contato" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-12">Pronto para o próximo contrato?</h2>
+            <div class="flex flex-col items-center gap-6">
+                <a href="mailto:alvacorporate@gmail.com" class="text-2xl font-light border-b border-black pb-2 hover:opacity-50 transition">
+                    alvacorporate@gmail.com
+                </a>
+                <p class="text-gray-400 text-sm tracking-widest">+55 19 99896-9354</p>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer id="contato" class="bg-black text-white pt-24 pb-10 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-16 mb-20">
-                <div class="col-span-1">
-                    <h3 class="text-3xl font-black mb-5 tracking-tighter">ALVA</h3>
-                    <p class="text-zinc-500 text-xs leading-relaxed font-light">
-                        Transformando o complexo mercado de licitações em uma vantagem competitiva sustentável para sua empresa.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-[#C47A3A] font-bold mb-6 uppercase text-[9px] tracking-widest">Contatos</h4>
-                    <ul class="text-xs space-y-3 font-light text-zinc-400">
-                        <li>alvacorporate@gmail.com</li>
-                        <li>+55 19 99896-9354</li>
-                        <li>Piracicaba / SP</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-[#C47A3A] font-bold mb-6 uppercase text-[9px] tracking-widest">Institucional</h4>
-                    <ul class="text-xs space-y-3 font-light text-zinc-400">
-                        <li>Compliance</li>
-                        <li>Gestão Jurídica</li>
-                        <li>Privacidade</li>
-                    </ul>
-                </div>
+    <!-- RODAPÉ -->
+    <footer class="py-12 px-6 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="font-black text-xl">ALVA</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-widest">
+                Piracicaba / SP • Brasil
             </div>
-            <div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between text-[8px] text-zinc-600 uppercase tracking-widest">
-                <span>© 2024 Alva Corporate. Excellence in Public Markets.</span>
-                <span>Brasil • International Performance</span>
+            <div class="text-[10px] text-gray-400 uppercase tracking-widest">
+                © 2024 ALVA CORPORATE
             </div>
         </div>
     </footer>
 
     <script>
-        // Script simples para as animações de entrada ao rolar a página
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
+        // Sistema de revelação no scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('active');
                 }
             });
-        }, { threshold: 0.1 });
+        };
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
     </script>
+
 </body>
 </html>
